@@ -18,10 +18,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
 @Table(name="class")
 public class Classess {
     @Id
@@ -83,6 +89,6 @@ public class Classess {
     @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy = "classess", orphanRemoval=true)
     private List<BillBelongTo> billBelongTos = new ArrayList<>();
 
-    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="classess", orphanRemoval=true)
+    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="id.classess", orphanRemoval=true)
     private List<IsHeldOn> isHeldOns = new ArrayList<>();
 }

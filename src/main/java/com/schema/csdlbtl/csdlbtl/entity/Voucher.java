@@ -10,11 +10,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Voucher {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="vou_id")

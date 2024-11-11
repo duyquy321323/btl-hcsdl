@@ -15,11 +15,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
 public class TimeSlot {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="slot_id")
@@ -31,6 +35,6 @@ public class TimeSlot {
     @Column(name = "end_time")
     private Date endTime;
 
-    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="timeSlot", orphanRemoval=true)
+    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="id.timeSlot", orphanRemoval=true)
     private List<IsHeldOn> isHeldOns = new ArrayList<>(); 
 }

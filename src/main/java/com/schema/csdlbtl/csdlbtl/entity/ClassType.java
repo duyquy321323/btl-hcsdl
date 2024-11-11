@@ -31,20 +31,10 @@ public class ClassType {
     @ManyToMany(mappedBy="classTypes")
     private List<Tutor> tutors = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name="cr_want_type",
-        joinColumns = @JoinColumn(name="class_type_id", nullable=false),
-        inverseJoinColumns = @JoinColumn(name="consultation_id")
-    )
+    @ManyToMany(mappedBy = "classTypes")
     private List<ConsultationReq> consultationReqs = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name="ta_want_type",
-        joinColumns = @JoinColumn(name="class_type_id", nullable=false),
-        inverseJoinColumns = @JoinColumn(name="tutor_apply_id")
-    )
+    @ManyToMany(mappedBy = "classTypes")
     private List<TutorApplication> tutorApplications = new ArrayList<>();
 
     @ManyToMany(mappedBy="classTypes")

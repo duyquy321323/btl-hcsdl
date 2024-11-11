@@ -13,10 +13,14 @@ import javax.persistence.Table;
 
 import com.schema.csdlbtl.csdlbtl.entity.id.BillBelongToId;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @IdClass(BillBelongToId.class)
 @Table(name="belong_to")
 public class BillBelongTo {

@@ -14,10 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Province {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -27,6 +31,6 @@ public class Province {
     @Column(name = "province_name")
     private String provinceName;
 
-    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="province", orphanRemoval=true)
+    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="id.province", orphanRemoval=true)
     private List<District> districts = new ArrayList<>();
 }

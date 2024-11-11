@@ -5,21 +5,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @Table(name="tutor_application")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TutorApplication {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -47,9 +43,19 @@ public class TutorApplication {
     @JoinColumn(name="teaching_style_id", nullable=false)
     private TeachingStyle teachingStyle;
 
-    @ManyToMany(mappedBy="tutorApplications")
+    @ManyToMany
+    @JoinTable(
+            name="ta_want_type",
+            inverseJoinColumns = @JoinColumn(name="class_type_id", nullable=false),
+            joinColumns = @JoinColumn(name="tutor_apply_id")
+    )
     private List<ClassType> classTypes = new ArrayList<>();
 
-    @ManyToMany(mappedBy="tutorApplications")
+    @ManyToMany
+    @JoinTable(
+            name="ta_want_subject",
+            inverseJoinColumns = @JoinColumn(name="subject_id", nullable=false),
+            joinColumns = @JoinColumn(name="tutor_apply_id")
+    )
     private List<Subject> subjects = new ArrayList<>();
 }

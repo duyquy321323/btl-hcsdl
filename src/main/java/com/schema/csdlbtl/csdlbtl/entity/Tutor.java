@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.schema.csdlbtl.csdlbtl.entity.id.TutorId;
 import lombok.*;
 import org.hibernate.annotations.AttributeAccessor;
 
@@ -19,12 +20,10 @@ import org.hibernate.annotations.AttributeAccessor;
 // @IdClass(TutorId.class)
 // @PrimaryKeyJoinColumn(name = "tutor_id", referencedColumnName="staff_id")
 //@AttributeOverride(name = "id", column = @Column(name = "tutor_id"))
-public class Tutor extends Staff {
+public class Tutor {
     
-    // @OneToOne
-    // // @MapsId("staffId")
-    // @JoinColumn(name="tutor_id", referencedColumnName = "staff_id")
-    // private Staff staff;
+     @EmbeddedId
+     private TutorId id;
 
     private String bio;
 
@@ -33,7 +32,7 @@ public class Tutor extends Staff {
     @Column(name="date_joined")
     private Date dateJoined;
 
-    @Column(name="inviting_code")
+    @Column(name="inviting_code", unique = true)
     private String invitingCode;
 
     @Column(name="n_of_invitations")
@@ -45,17 +44,17 @@ public class Tutor extends Staff {
     @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="invitedCode", orphanRemoval=true)
     private List<Tutor> invitings = new ArrayList<>();
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="invited_code")
     private Tutor invitedCode;
 
-    @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="tutor", orphanRemoval = true)
+    @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="id.tutor", orphanRemoval = true)
     private List<Certificate> certificates = new ArrayList<>();
 
     @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="tutor", orphanRemoval=true)
     private List<Classess> classess = new ArrayList<>();
 
-    @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="tutor", orphanRemoval=true)
+    @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="id.tutor", orphanRemoval=true)
     private List<Degree> degrees = new ArrayList<>();
 
     @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="tutor", orphanRemoval=true)
@@ -112,18 +111,4 @@ public class Tutor extends Staff {
         inverseJoinColumns=@JoinColumn(name="institution_id", nullable=false)
     )
     private List<EducationalInstitution> educationalInstitutions = new ArrayList<>();
-
-    public static Tutor fromStaff(Staff staff){
-        Tutor tutor = new Tutor();
-        tutor.setEmail(staff.getEmail());
-        tutor.setFullname(staff.getFullname());
-        tutor.setSex(staff.getSex());
-        tutor.setPassword(staff.getPassword());
-        tutor.setPhoneNumber(staff.getPhoneNumber());
-        tutor.setNationalId(staff.getNationalId());
-        tutor.setPlaceOfOrigin(staff.getPlaceOfOrigin());
-        tutor.setDateOfBirth(staff.getDateOfBirth());
-        tutor.setProfilePhoto(staff.getProfilePhoto());
-        return tutor;
-    }
 }

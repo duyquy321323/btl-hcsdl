@@ -14,11 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @Table(name="certificate_type")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CertificateType {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

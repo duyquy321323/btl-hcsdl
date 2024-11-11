@@ -14,11 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class WeekDay {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="weekday_id")
@@ -26,6 +30,6 @@ public class WeekDay {
 
     private String name;
 
-    @OneToMany(mappedBy="weekDay", cascade={CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @OneToMany(mappedBy="id.weekDay", cascade={CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<IsHeldOn> isHeldOns = new ArrayList<>();
 }

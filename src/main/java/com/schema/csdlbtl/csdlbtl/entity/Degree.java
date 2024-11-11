@@ -1,36 +1,23 @@
 package com.schema.csdlbtl.csdlbtl.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.schema.csdlbtl.csdlbtl.entity.id.DegreeId;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@IdClass(DegreeId.class)
+import java.util.Random;
+
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="degree")
 public class Degree {
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="degr_id")
-    private Long degrId;
-
-    @Id
-    @Column(name="tutor_id")
-    private Long tutorId;
-
-    @ManyToOne
-    @JoinColumn(name="tutor_id", updatable=false, insertable=false)
-    private Tutor tutor;
+    @EmbeddedId
+    private DegreeId id;
 
     @Column(name="degr_type")
     private String degrType;
@@ -42,6 +29,17 @@ public class Degree {
     private String degrMajorName;
 
     @ManyToOne
-    @JoinColumn(name="granted_intitution_id", nullable=false)
+    @JoinColumn(name="granted_institution_id", nullable=false)
     private EducationalInstitution educationalInstitution;
+
+    @PrePersist
+    private void prePersist() {
+        if(id.getDegrId() == null) {
+            id.setDegrId(generatedDegrId());
+        }
+    }
+
+    private Long generatedDegrId(){
+        return new Random().nextLong(1, 1000000000);
+    }
 }

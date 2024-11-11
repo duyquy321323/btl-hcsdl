@@ -5,20 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.Builder;
+import lombok.*;
 
 @Entity
 @Builder
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="consultation_req")
 public class ConsultationReq {
     @Id
@@ -26,7 +22,7 @@ public class ConsultationReq {
     @Column(name="cq_id")
     private Long id;
 
-    private String requirements;
+    private String requirement;
 
     @Column(name="cq_status")
     private String cqStatus;
@@ -35,13 +31,28 @@ public class ConsultationReq {
     @JoinColumn(name="student_id", nullable = false)
     private Student student;
 
-    @ManyToMany(mappedBy="consultationReqs")
+    @ManyToMany
+    @JoinTable(
+            name="cr_want_type",
+            inverseJoinColumns = @JoinColumn(name="class_type_id", nullable=false),
+            joinColumns = @JoinColumn(name="consultation_id")
+    )
     private List<ClassType> classTypes = new ArrayList<>();
 
-    @ManyToMany(mappedBy="consultationReqs")
+    @ManyToMany
+    @JoinTable(
+            name="cr_want_subject",
+            inverseJoinColumns = @JoinColumn(name="subject_id", nullable=false),
+            joinColumns= @JoinColumn(name="consultation_id")
+    )
     private List<Subject> subjects = new ArrayList<>();
 
-    @ManyToMany(mappedBy="consultationReqs")
+    @ManyToMany
+    @JoinTable(
+            name="want_teaching_style",
+            inverseJoinColumns = @JoinColumn(name="tea_style_id", nullable=false),
+            joinColumns= @JoinColumn(name="consultation_id")
+    )
     private List<TeachingStyle> teachingStyles = new ArrayList<>();
 
     @ManyToOne

@@ -15,10 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="address")
 public class Address {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -46,9 +50,9 @@ public class Address {
 
     @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "ward_id", referencedColumnName = "ward_id", updatable=false, insertable=false),
-        @JoinColumn(name = "district_city_id", referencedColumnName = "district_city_id", updatable=false, insertable=false),
-        @JoinColumn(name = "province_id", referencedColumnName = "province_id", updatable = false, insertable = false)
+        @JoinColumn(name = "ward_id", referencedColumnName = "ward_id"),
+        @JoinColumn(name = "district_city_id", referencedColumnName = "district_city_id"),
+        @JoinColumn(name = "province_id", referencedColumnName = "province_id")
     })
     private Ward ward;
 }

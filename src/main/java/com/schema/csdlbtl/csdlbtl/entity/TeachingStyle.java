@@ -17,10 +17,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="teaching_style")
 public class TeachingStyle {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,12 +37,7 @@ public class TeachingStyle {
     @ManyToMany(mappedBy="teachingStyles")
     private List<Tutor> tutors = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name="want_teaching_style",
-        joinColumns = @JoinColumn(name="tea_style_id", nullable=false),
-        inverseJoinColumns= @JoinColumn(name="consultation_id")
-    )
+    @ManyToMany(mappedBy = "teachingStyles")
     private List<ConsultationReq> consultationReqs = new ArrayList<>();
 
     @OneToMany(cascade={CascadeType.MERGE,CascadeType.PERSIST}, mappedBy="teachingStyle", orphanRemoval = true)

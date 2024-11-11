@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.schema.csdlbtl.csdlbtl.entity.id.StudentId;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -14,20 +16,19 @@ import lombok.Setter;
 @Table(name = "student")
 @NoArgsConstructor
 @Setter
+@Getter
 // @IdClass(StudentId.class)
 @AllArgsConstructor
 // @PrimaryKeyJoinColumn(name = "student_id", referencedColumnName="user_id")
-@AttributeOverride(name = "id", column = @Column(name = "stu_id"))
-public class Student extends User {
+//@AttributeOverride(name = "id", column = @Column(name = "stu_id"))
+public class Student {
 
 //    @Id
 //    @Column(name = "stu_id")
 //    private Long id;
 
-    // @OneToOne
-    // @MapsId("userId")
-    // @JoinColumn(name = "stu_id", referencedColumnName = "user_id")
-    // private User user;
+    @EmbeddedId
+    private StudentId id;
 
     @Column(name = "stu_school")
     private String stuSchool;
@@ -46,14 +47,5 @@ public class Student extends User {
 
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "student", orphanRemoval = true)
     private List<TutorReview> tutorReviews = new ArrayList<>();
-    
-    public static Student fromUser(User user){
-        Student student = new Student();
-        student.setEmail(user.getEmail());
-        student.setFullname(user.getFullname());
-        student.setSex(user.getSex());
-        student.setPassword(user.getPassword());
-        student.setPhoneNumber(user.getPhoneNumber());
-        return student;
-    }
+
 }

@@ -11,10 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="tutor_review")
 public class TutorReview {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)

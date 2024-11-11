@@ -18,12 +18,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @NoArgsConstructor
-@AttributeOverride(name = "id", column = @Column(name="user_id"))
-//@MappedSuperclass
 public class User{
-
-    @Column(nullable=false)
-    private String email;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
 
     @Column(nullable=false, unique=true, name="phone_number")
     private String phoneNumber;
@@ -40,9 +39,6 @@ public class User{
     @OneToMany(mappedBy="user", cascade={CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval=true)
     private List<Address> addresses = new ArrayList<>();
 
-    // @OneToOne(mappedBy = "user", cascade={CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval=true)
-    // private Student student;
-
-    // @OneToOne(mappedBy = "user", cascade={CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval=true)
-    // private Staff staff;
+    @OneToMany(mappedBy = "id.user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    private List<UserContact> userContact;
 }

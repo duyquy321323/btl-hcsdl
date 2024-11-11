@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.schema.csdlbtl.csdlbtl.entity.id.StaffId;
 import lombok.*;
 
 @Entity
@@ -15,8 +16,11 @@ import lombok.*;
 @AllArgsConstructor
 // @IdClass(StaffId.class)
 // @PrimaryKeyJoinColumn(name = "staff_id", referencedColumnName="user_id")
-@AttributeOverride(name = "id", column = @Column(name = "staff_id"))
-public class Staff extends User {
+//@AttributeOverride(name = "id", column = @Column(name = "staff_id"))
+public class Staff {
+
+    @EmbeddedId
+    private StaffId id;
 
     @Column(name = "national_id")
     private String nationalId;
@@ -31,20 +35,11 @@ public class Staff extends User {
     @Lob
     private byte[] profilePhoto;
 
-    // @OneToOne(mappedBy = "staff", cascade = { CascadeType.MERGE,
-    // CascadeType.PERSIST }, orphanRemoval = true)
-    // private Tutor tutor;
+     @OneToOne(mappedBy = "id.staff", cascade = { CascadeType.MERGE,
+     CascadeType.PERSIST }, orphanRemoval = true)
+     private Tutor tutor;
 
-    // @OneToOne(mappedBy = "staff", cascade = { CascadeType.MERGE,
-    // CascadeType.PERSIST }, orphanRemoval = true)
-    // private Admin admin;
-    public static Staff fromUser(User user){
-        Staff staff = new Staff();
-        staff.setEmail(user.getEmail());
-        staff.setFullname(user.getFullname());
-        staff.setSex(user.getSex());
-        staff.setPassword(user.getPassword());
-        staff.setPhoneNumber(user.getPhoneNumber());
-        return staff;
-    }
+     @OneToOne(mappedBy = "id.staff", cascade = { CascadeType.MERGE,
+     CascadeType.PERSIST }, orphanRemoval = true) // tham chiếu đến thực thực thể admin -> thuộc tính id (nhúng) -> thuộc tính staff
+     private Admin admin;
 }

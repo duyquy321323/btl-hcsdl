@@ -15,10 +15,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="subject")
 public class Subject {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,20 +35,10 @@ public class Subject {
     @ManyToMany(mappedBy="subjects")
     private List<Tutor> tutors = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name="cr_want_subject",
-        joinColumns = @JoinColumn(name="subject_id", nullable=false),
-        inverseJoinColumns= @JoinColumn(name="consultation_id")
-    )
+    @ManyToMany(mappedBy = "subjects")
     private List<ConsultationReq> consultationReqs = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name="ta_want_subject",
-        joinColumns = @JoinColumn(name="subject_id", nullable=false),
-        inverseJoinColumns = @JoinColumn(name="tutor_apply_id")
-    )
+    @ManyToMany(mappedBy = "subjects")
     private List<TutorApplication> tutorApplications = new ArrayList<>();
 
     @ManyToMany(mappedBy="subjects")
